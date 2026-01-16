@@ -157,7 +157,7 @@ export function Cart({ onBack, onCheckout }: CartProps) {
                             </Button>
                           </div>
                           <p className="text-lg font-semibold text-purple-600">
-                            ${(item.basePrice * item.quantity).toFixed(2)}
+                            ₹{(item.basePrice * item.quantity).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -182,11 +182,11 @@ export function Cart({ onBack, onCheckout }: CartProps) {
                 <CardContent className="space-y-4 pt-6">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal ({getCartCount()} items)</span>
-                    <span className="font-medium">${getCartTotal().toFixed(2)}</span>
+                    <span className="font-medium">₹{getCartTotal().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
-                    <span className="font-medium text-green-600">$9.99</span>
+                    <span className="font-medium text-green-600">₹99</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Estimated Tax</span>

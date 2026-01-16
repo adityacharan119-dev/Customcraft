@@ -2,25 +2,31 @@ import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import { ShoppingCart, Palette, Menu, Home, Info, Mail, Package } from 'lucide-react';
+import { ShoppingCart, Palette, Menu, Home, Info, Mail, Package, Sun, Moon } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { useTheme } from 'next-themes';
 import { motion } from 'motion/react';
 
 interface HeaderProps {
   onViewCart: () => void;
   onNavigateHome: () => void;
+  onShowLogin: () => void;
+  onShowAbout: () => void;
+  onShowContact: () => void;
 }
 
-export function Header({ onViewCart, onNavigateHome }: HeaderProps) {
+export function Header({ onViewCart, onNavigateHome, onShowLogin, onShowAbout, onShowContact }: HeaderProps) {
   const { getCartCount } = useCart();
+  const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cartCount = getCartCount();
 
   const menuItems = [
     { label: 'Home', icon: Home, action: onNavigateHome },
     { label: 'Products', icon: Package, action: onNavigateHome },
-    { label: 'About', icon: Info, action: () => {} },
-    { label: 'Contact', icon: Mail, action: () => {} },
+    { label: 'About', icon: Info, action: onShowAbout },
+    { label: 'Contact', icon: Mail, action: onShowContact },
+    { label: 'Login', icon: Mail, action: onShowLogin },
   ];
 
   return (
@@ -60,6 +66,15 @@ export function Header({ onViewCart, onNavigateHome }: HeaderProps) {
                 {item.label}
               </button>
             ))}
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="hover:border-purple-600 hover:text-purple-600 transition-all"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
 
             <Button
               variant="outline"
@@ -129,6 +144,17 @@ export function Header({ onViewCart, onNavigateHome }: HeaderProps) {
                       <span className="text-base">{item.label}</span>
                     </button>
                   ))}
+
+                  <button
+                    onClick={() => {
+                      setTheme(theme === 'dark' ? 'light' : 'dark');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 p-4 rounded-lg hover:bg-purple-50 transition-colors text-left"
+                  >
+                    {theme === 'dark' ? <Sun className="h-5 w-5 text-purple-600" /> : <Moon className="h-5 w-5 text-purple-600" />}
+                    <span className="text-base">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                  </button>
 
                   <Button
                     onClick={() => {

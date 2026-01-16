@@ -42,36 +42,79 @@ export function TShirtCustomizer({ product, onBack }: TShirtCustomizerProps) {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw t-shirt background
-    ctx.fillStyle = customization.color || '#FFFFFF';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw based on product type
+    if (product.type === 'pet-bowl') {
+      // Draw pet bowl
+      ctx.fillStyle = customization.color || '#C0C0C0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw a simple t-shirt outline
-    ctx.strokeStyle = '#cccccc';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    // Body
-    ctx.moveTo(100, 100);
-    ctx.lineTo(100, 400);
-    ctx.lineTo(400, 400);
-    ctx.lineTo(400, 100);
-    // Neck
-    ctx.moveTo(200, 100);
-    ctx.lineTo(200, 50);
-    ctx.lineTo(300, 50);
-    ctx.lineTo(300, 100);
-    // Sleeves
-    ctx.moveTo(100, 100);
-    ctx.lineTo(50, 150);
-    ctx.lineTo(50, 200);
-    ctx.lineTo(100, 200);
-    ctx.moveTo(400, 100);
-    ctx.lineTo(450, 150);
-    ctx.lineTo(450, 200);
-    ctx.lineTo(400, 200);
-    ctx.stroke();
+      // Draw bowl shape (ellipse at bottom)
+      ctx.beginPath();
+      ctx.ellipse(250, 350, 180, 80, 0, 0, 2 * Math.PI);
+      ctx.fillStyle = customization.color || '#C0C0C0';
+      ctx.fill();
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 3;
+      ctx.stroke();
 
-    // Draw text
+      // Draw bowl rim
+      ctx.beginPath();
+      ctx.ellipse(250, 350, 180, 80, 0, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#666666';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    } else if (product.type === 'mug') {
+      // Draw mug
+      ctx.fillStyle = customization.color || '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw mug body
+      ctx.beginPath();
+      ctx.roundRect(150, 150, 200, 250, 20);
+      ctx.fillStyle = customization.color || '#FFFFFF';
+      ctx.fill();
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Draw handle
+      ctx.beginPath();
+      ctx.arc(380, 250, 30, -Math.PI/2, Math.PI/2);
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = customization.color || '#FFFFFF';
+      ctx.stroke();
+    } else {
+      // Default t-shirt drawing
+      ctx.fillStyle = customization.color || '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw a simple t-shirt outline
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      // Body
+      ctx.moveTo(100, 100);
+      ctx.lineTo(100, 400);
+      ctx.lineTo(400, 400);
+      ctx.lineTo(400, 100);
+      // Neck
+      ctx.moveTo(200, 100);
+      ctx.lineTo(200, 50);
+      ctx.lineTo(300, 50);
+      ctx.lineTo(300, 100);
+      // Sleeves
+      ctx.moveTo(100, 100);
+      ctx.lineTo(50, 150);
+      ctx.lineTo(50, 200);
+      ctx.lineTo(100, 200);
+      ctx.moveTo(400, 100);
+      ctx.lineTo(450, 150);
+      ctx.lineTo(450, 200);
+      ctx.lineTo(400, 200);
+      ctx.stroke();
+    }
+
+    // Draw text for all product types
     if (customization.text) {
       ctx.font = `${customization.fontSize}px ${customization.font}`;
       ctx.fillStyle = customization.color === '#FFFFFF' ? '#000000' : '#FFFFFF';
@@ -80,7 +123,7 @@ export function TShirtCustomizer({ product, onBack }: TShirtCustomizerProps) {
       ctx.fillText(
         customization.text,
         customization.textPosition?.x || 250,
-        customization.textPosition?.y || 250
+        customization.textPosition?.y || (product.type === 'pet-bowl' ? 200 : product.type === 'mug' ? 250 : 250)
       );
     }
   };
@@ -147,7 +190,7 @@ export function TShirtCustomizer({ product, onBack }: TShirtCustomizerProps) {
                 {product.name}
               </h2>
               <p className="text-2xl md:text-3xl text-purple-600 font-bold">
-                ${product.basePrice.toFixed(2)}
+                ₹{product.basePrice.toFixed(2)}
               </p>
             </div>
 
@@ -260,7 +303,7 @@ export function TShirtCustomizer({ product, onBack }: TShirtCustomizerProps) {
                 size="lg"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart - ${product.basePrice.toFixed(2)}
+                Add to Cart - ₹{product.basePrice.toFixed(2)}
               </Button>
             </div>
           </motion.div>

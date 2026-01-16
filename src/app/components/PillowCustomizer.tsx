@@ -154,7 +154,7 @@ export function PillowCustomizer({ product, onBack }: PillowCustomizerProps) {
         <div className="space-y-6">
           <div>
             <h2 className="text-3xl mb-2">{product.name}</h2>
-            <p className="text-2xl text-primary">${product.basePrice.toFixed(2)}</p>
+            <p className="text-2xl text-primary">₹{product.basePrice.toFixed(2)}</p>
           </div>
 
           <div className="space-y-4">

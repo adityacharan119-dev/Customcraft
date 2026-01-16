@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import { CartProvider } from './contexts/CartContext';
 import { Header } from './components/Header';
 import { ProductCatalog } from './components/ProductCatalog';
+import { FloatingCategorySelector } from './components/FloatingCategorySelector';
+import { CursorFollower } from './components/CursorFollower';
 import { UniversalCustomizer } from './components/UniversalCustomizer';
 import { Cart } from './components/Cart';
 import { Checkout } from './components/Checkout';
+import { Login } from './components/Login';
+import { About } from './components/About';
+import { Contact } from './components/Contact';
 import { Product } from './data/products';
 import { Toaster } from './components/ui/sonner';
 import { motion } from 'motion/react';
 import { Instagram, Facebook, Twitter, Mail, Heart } from 'lucide-react';
 
-type View = 'catalog' | 'customizer' | 'cart' | 'checkout';
+type View = 'catalog' | 'customizer' | 'cart' | 'checkout' | 'login' | 'about' | 'contact';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<View>('catalog');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const handleSelectProduct = (product: Product) => {
     setSelectedProduct(product);
@@ -49,14 +55,38 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLogin = (email: string, password: string) => {
+    // Login handled in Login component
+    setCurrentView('catalog');
+  };
+
+  const handleShowLogin = () => {
+    setCurrentView('login');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleShowAbout = () => {
+    setCurrentView('about');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleShowContact = () => {
+    setCurrentView('contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <CartProvider>
       <div className="min-h-screen bg-background">
-        <Header onViewCart={handleViewCart} onNavigateHome={handleReturnHome} />
+        <Header onViewCart={handleViewCart} onNavigateHome={handleReturnHome} onShowLogin={handleShowLogin} onShowAbout={handleShowAbout} onShowContact={handleShowContact} />
         
         <main className="min-h-[calc(100vh-4rem)]">
           {currentView === 'catalog' && (
-            <ProductCatalog onSelectProduct={handleSelectProduct} />
+            <ProductCatalog 
+              onSelectProduct={handleSelectProduct} 
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+            />
           )}
 
           {currentView === 'customizer' && selectedProduct && (
@@ -73,7 +103,28 @@ export default function App() {
           {currentView === 'checkout' && (
             <Checkout onBack={handleBackToCart} onReturnHome={handleReturnHome} />
           )}
+
+          {currentView === 'login' && (
+            <Login onBack={handleReturnHome} onLogin={handleLogin} />
+          )}
+
+          {currentView === 'about' && (
+            <About onBack={handleReturnHome} />
+          )}
+
+          {currentView === 'contact' && (
+            <Contact onBack={handleReturnHome} />
+          )}
         </main>
+
+        {currentView === 'catalog' && (
+          <FloatingCategorySelector 
+            selectedCategory={selectedCategory} 
+            onCategoryChange={setSelectedCategory} 
+          />
+        )}
+
+        <CursorFollower />
 
         <motion.footer
           initial={{ opacity: 0 }}
@@ -125,13 +176,17 @@ export default function App() {
               </div>
 
               <div>
-                <h3 className="text-lg mb-4">Customer Service</h3>
+                <h3 className="text-lg mb-4">Service Areas</h3>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="hover:text-purple-600 cursor-pointer transition-colors">FAQ</li>
-                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Shipping & Returns</li>
-                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Order Tracking</li>
-                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Size Guide</li>
-                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Contact Us</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Delhi NCR</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Mumbai</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Bangalore</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Hyderabad</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Chennai</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Pune</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Kolkata</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">Ahmedabad</li>
+                  <li className="hover:text-purple-600 cursor-pointer transition-colors">All India</li>
                 </ul>
               </div>
 

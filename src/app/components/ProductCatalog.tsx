@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { products, Product, categories } from '../data/products';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 import { Palette, Type, Image, Zap, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface ProductCatalogProps {
   onSelectProduct: (product: Product) => void;
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
 }
 
-export function ProductCatalog({ onSelectProduct }: ProductCatalogProps) {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+export function ProductCatalog({ onSelectProduct, selectedCategory, onCategoryChange }: ProductCatalogProps) {
 
   const filteredProducts =
     selectedCategory === 'all'
@@ -78,8 +78,8 @@ export function ProductCatalog({ onSelectProduct }: ProductCatalogProps) {
           </p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
+        {/* Category Filter - Moved to floating component */}
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -101,7 +101,7 @@ export function ProductCatalog({ onSelectProduct }: ProductCatalogProps) {
               </TabsList>
             </div>
           </Tabs>
-        </motion.div>
+        </motion.div> */}
 
         {/* Products Count */}
         <div className="mb-6">
@@ -131,7 +131,7 @@ export function ProductCatalog({ onSelectProduct }: ProductCatalogProps) {
                   </div>
                   <div className="absolute top-3 right-3">
                     <Badge className="bg-white/90 backdrop-blur-sm text-purple-700 border-purple-200 shadow-md">
-                      ${product.basePrice.toFixed(2)}
+                      ₹{product.basePrice.toFixed(2)}
                     </Badge>
                   </div>
                 </CardHeader>

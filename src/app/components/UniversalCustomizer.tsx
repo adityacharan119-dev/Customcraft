@@ -31,7 +31,8 @@ export function UniversalCustomizer({ product, onBack }: UniversalCustomizerProp
     product.type === 'phone-case' ||
     product.type === 'blanket' ||
     product.type === 'wall-art' ||
-    product.type === 'photo-frame'
+    product.type === 'photo-frame' ||
+    product.type === 'sticker'
   ) {
     return <PillowCustomizer product={product} onBack={onBack} />;
   }

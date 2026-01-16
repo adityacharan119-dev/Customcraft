@@ -28,10 +28,12 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
     city: '',
     state: '',
     zip: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCVV: '',
+    verificationCode: '',
+    enteredCode: '',
   });
+
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -46,6 +48,24 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
     // Validate form
     if (!formData.name || !formData.email || !formData.address) {
       toast.error('Please fill in all required fields');
+      return;
+    }
+
+    if (!showVerification) {
+      // Send verification code
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      setVerificationCode(code);
+      setShowVerification(true);
+      
+      // In a real app, this would send the code via email
+      toast.success(`Verification code sent to ${formData.email}`);
+      console.log(`Verification code: ${code}`); // For demo purposes
+      return;
+    }
+
+    // Verify code
+    if (formData.enteredCode !== verificationCode) {
+      toast.error('Invalid verification code');
       return;
     }
 
@@ -270,45 +290,51 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 pt-6">
-                    <div>
-                      <Label htmlFor="cardNumber" className="text-base">Card Number</Label>
-                      <Input
-                        id="cardNumber"
-                        name="cardNumber"
-                        placeholder="1234 5678 9012 3456"
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        className="mt-1"
-                      />
+                    <div className="text-center">
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Scan the QR code below to complete your payment
+                      </p>
+                      <div className="bg-white border-2 border-gray-200 rounded-lg p-4 inline-block">
+                        {/* QR Code placeholder - in a real app, this would be generated */}
+                        <div className="w-48 h-48 bg-gradient-to-br from-purple-100 to-blue-100 rounded flex items-center justify-center">
+                          <div className="text-center">
+                            <div className="w-32 h-32 bg-white border-2 border-purple-200 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                              <span className="text-xs text-purple-600 font-mono">
+                                QR CODE<br/>PAYMENT
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-600">Scan to Pay</p>
+                            <p className="text-xs text-gray-500 mt-1">₹{getCartTotal().toLocaleString()}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-4">
+                        Supports UPI, Paytm, Google Pay, PhonePe, and all major payment apps
+                      </p>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="cardExpiry" className="text-base">Expiry Date</Label>
+                    
+                    {showVerification && (
+                      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <Label htmlFor="enteredCode" className="text-base text-blue-900">Enter Verification Code</Label>
+                        <p className="text-sm text-blue-700 mb-2">
+                          We've sent a 6-digit code to {formData.email}
+                        </p>
                         <Input
-                          id="cardExpiry"
-                          name="cardExpiry"
-                          placeholder="MM/YY"
-                          value={formData.cardExpiry}
+                          id="enteredCode"
+                          name="enteredCode"
+                          value={formData.enteredCode}
                           onChange={handleInputChange}
+                          placeholder="Enter 6-digit code"
                           className="mt-1"
+                          maxLength={6}
                         />
                       </div>
-                      <div>
-                        <Label htmlFor="cardCVV" className="text-base">CVV</Label>
-                        <Input
-                          id="cardCVV"
-                          name="cardCVV"
-                          placeholder="123"
-                          value={formData.cardCVV}
-                          onChange={handleInputChange}
-                          className="mt-1"
-                        />
-                      </div>
-                    </div>
+                    )}
+                    
                     <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 text-sm flex items-start gap-2">
                       <Lock className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
                       <p className="text-purple-900">
-                        Your payment information is encrypted and secure
+                        Your payment is processed securely through encrypted channels
                       </p>
                     </div>
                   </CardContent>
@@ -331,10 +357,15 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
                       Processing...
                     </>
+                  ) : showVerification ? (
+                    <>
+                      <Lock className="mr-2 h-5 w-5" />
+                      Confirm Order
+                    </>
                   ) : (
                     <>
                       <Lock className="mr-2 h-5 w-5" />
-                      Place Order
+                      Send Verification Code
                     </>
                   )}
                 </Button>
@@ -361,7 +392,7 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
                           {item.productName} x {item.quantity}
                         </span>
                         <span className="font-medium whitespace-nowrap">
-                          ${(item.basePrice * item.quantity).toFixed(2)}
+                          ₹{(item.basePrice * item.quantity).toFixed(2)}
                         </span>
                       </div>
                     ))}
@@ -369,21 +400,21 @@ export function Checkout({ onBack, onReturnHome }: CheckoutProps) {
                   <Separator />
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${getCartTotal().toFixed(2)}</span>
+                    <span>₹{getCartTotal().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Shipping</span>
-                    <span className="text-green-600">$9.99</span>
+                    <span className="text-green-600">₹99</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Tax (8%)</span>
-                    <span>${(getCartTotal() * 0.08).toFixed(2)}</span>
+                    <span>₹{(getCartTotal() * 0.08).toFixed(2)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
                     <span className="text-purple-600">
-                      ${(getCartTotal() + 9.99 + getCartTotal() * 0.08).toFixed(2)}
+                      ₹{(getCartTotal() + 99 + getCartTotal() * 0.08).toFixed(2)}
                     </span>
                   </div>
                 </CardContent>
