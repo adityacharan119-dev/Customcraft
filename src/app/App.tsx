@@ -136,7 +136,7 @@ export default function App() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <div>
                 <h3 className="text-lg mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  About CustomCraft
+                  About MyCraft
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   Create personalized products with our premium customization tools.
@@ -210,7 +210,7 @@ export default function App() {
 
             <div className="border-t mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground text-center sm:text-left">
-                &copy; 2026 CustomCraft. All rights reserved.
+                &copy; 2026 MyCraft. All rights reserved.
               </p>
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
                 <span>Made with</span>

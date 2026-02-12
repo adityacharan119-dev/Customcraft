@@ -1,6 +1,6 @@
-# Customcraft - Complete Documentation Index
+# MyCraft - Complete Documentation Index
 
-Welcome to your updated Customcraft website with PostgreSQL and AI Bot features!
+Welcome to your updated MyCraft website with PostgreSQL and AI Bot features!
 
 ---
 

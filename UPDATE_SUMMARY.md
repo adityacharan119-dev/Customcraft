@@ -1,7 +1,7 @@
-# 🎨 Customcraft Update Summary
+# 🎨 MyCraft Update Summary
 
 ## Current Database
-**SQLite** (`customcraft.db` - file-based)
+**SQLite** (`mycraft.db` - file-based)
 
 ## New Database  
 **PostgreSQL** (server-based, production-ready, scalable)

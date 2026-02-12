@@ -1,8 +1,8 @@
-# Customcraft - PostgreSQL & AI Bot Setup Guide
+# MyCraft - PostgreSQL & AI Bot Setup Guide
 
 ## Summary of Changes
 
-Your Customcraft website has been upgraded with:
+Your MyCraft website has been upgraded with:
 1. **PostgreSQL Database** - Migrated from SQLite for better scalability
 2. **AI Bot Assistant** - Provides design suggestions and creates custom designs
 

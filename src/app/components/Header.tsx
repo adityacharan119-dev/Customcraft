@@ -50,7 +50,7 @@ export function Header({ onViewCart, onNavigateHome, onShowLogin, onShowAbout, o
               </div>
             </div>
             <span className="text-xl md:text-2xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              CustomCraft
+              MyCraft
             </span>
           </button>
 

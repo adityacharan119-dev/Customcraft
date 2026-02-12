@@ -1,4 +1,4 @@
-# Customcraft Architecture
+# MyCraft Architecture
 
 ## System Overview
 

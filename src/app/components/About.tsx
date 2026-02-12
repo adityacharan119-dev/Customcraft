@@ -24,7 +24,7 @@ export function About({ onBack }: AboutProps) {
               Back
             </Button>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              About CustomCraft
+              About MyCraft
             </h1>
           </div>
 
@@ -38,7 +38,7 @@ export function About({ onBack }: AboutProps) {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  At CustomCraft India, we believe everyone deserves to express their unique style.
+                  At MyCraft India, we believe everyone deserves to express their unique style.
                   As India's leading customization platform, we empower creators, businesses, and individuals
                   across the nation to bring their ideas to life with high-quality, personalized products
                   made right here in India.

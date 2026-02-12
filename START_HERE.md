@@ -1,4 +1,4 @@
-# 🎉 Your Customcraft Update is Complete!
+# 🎉 Your MyCraft Update is Complete!
 
 ## What You Have Now
 
@@ -341,4 +341,4 @@ You now have:
 
 Questions? Check the relevant documentation file or start with [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md).
 
-Enjoy your upgraded Customcraft! 🎨✨
+Enjoy your upgraded MyCraft! 🎨✨

@@ -54,7 +54,7 @@ export function Login({ onBack, onLogin }: LoginProps) {
               Welcome Back
             </CardTitle>
             <CardDescription>
-              Sign in to your CustomCraft account
+              Sign in to your MyCraft account
             </CardDescription>
           </CardHeader>
           <CardContent>

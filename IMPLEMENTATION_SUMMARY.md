@@ -2,7 +2,7 @@
 
 ## Current Database Status
 
-**Before**: SQLite (`customcraft.db`)
+**Before**: SQLite (`mycraft.db`)
 **After**: PostgreSQL (scalable, production-ready)
 
 ---
